@@ -42,5 +42,33 @@ recom<- function(usernumber, itemnumber)
   return(recommend[usernumber,])
 }
 
-recom(3,3)
+recom(16,5)
 recom(3,5)
+# function used to calculate a specific rating and used in recom1 to calculate all ratings for a user
+recom2<- function(usernumber, itemnumber)
+{
+  l<-recommend.similarity[,usernumber]
+  q<-recommend[,itemnumber]
+  r<-l[!q==0]
+  recom<- sum(l*q)/sum(r)
+  return(recom)
+}
+
+#function to calculate ratings for a particular user
+recom1<- function( usernumber)
+{
+  k<- recommend[usernumber,]
+  for(i in 2:length(k))
+    if(k[i]==0)
+      {
+      itemnumber<- i
+      recommend[usernumber,i]<- recom2(usernumber,itemnumber)
+    }
+return(recommend[usernumber,])
+  }
+
+
+# recom function to calculate specific cell rating 
+#recom1 function to calcucalte all ratings for a specific user
+
+      
